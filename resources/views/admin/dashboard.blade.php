@@ -84,8 +84,8 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  const labels = @json($sales - > pluck('d'));
-  const data = @json($sales - > pluck('amount'));
+const labels = @json($sales->pluck('date'));
+const data = @json($sales->pluck('amount'));
 
   new Chart(document.getElementById('sales7'), {
     type: 'line',

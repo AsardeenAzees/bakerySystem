@@ -116,7 +116,7 @@
           @if($order->payment)
             <p><strong>Provider:</strong> {{ strtoupper($order->payment->provider) }}</p>
             <p><strong>Status:</strong> 
-              <span class="badge bg-{{ $order->payment->status === 'completed' ? 'success' : 'warning' }}">
+              <span class="badge bg-{{ $order->payment->status === 'succeeded' ? 'success' : 'warning' }}">
                 {{ ucfirst($order->payment->status) }}
               </span>
             </p>

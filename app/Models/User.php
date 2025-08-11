@@ -40,6 +40,9 @@ class User extends Authenticatable
             'last_login_at'     => 'datetime',
             'password'          => 'hashed',
             'is_active'         => 'boolean',
+            // Aggregates from withSum/withMax
+            'orders_max_created_at' => 'datetime',
+            'orders_sum_total'      => 'decimal:2',
         ];
     }
 

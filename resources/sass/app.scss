@@ -71,11 +71,18 @@ body {
         
         .dropdown-item {
             transition: var(--transition);
+            border-radius: var(--border-radius);
             
             &:hover {
                 background-color: rgba(139, 69, 19, 0.1);
                 color: var(--primary-color);
                 transform: translateX(5px);
+            }
+
+            &.active {
+                background-color: rgba(139, 69, 19, 0.15);
+                color: var(--primary-color);
+                font-weight: 600;
             }
         }
     }

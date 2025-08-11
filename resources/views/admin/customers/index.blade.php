@@ -72,7 +72,7 @@
                                     </td>
                                     <td>
                                         @if($customer->orders_max_created_at)
-                                            {{ $customer->orders_max_created_at->format('M d, Y') }}
+                                            {{ \Illuminate\Support\Carbon::parse($customer->orders_max_created_at)->format('M d, Y') }}
                                         @else
                                             Never
                                         @endif

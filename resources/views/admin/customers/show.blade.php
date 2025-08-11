@@ -104,7 +104,7 @@
                                 <div class="col-6 mb-3">
                                     <div class="card bg-warning text-white">
                                         <div class="card-body text-center">
-                                            <h3>{{ $orderStats['last_order'] ? $orderStats['last_order']->format('M d') : 'Never' }}</h3>
+                                            <h3>{{ $orderStats['last_order'] ? \Illuminate\Support\Carbon::parse($orderStats['last_order'])->format('M d') : 'Never' }}</h3>
                                             <small>Last Order</small>
                                         </div>
                                     </div>

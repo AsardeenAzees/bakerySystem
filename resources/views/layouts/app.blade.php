@@ -74,6 +74,11 @@
                                     <i class="fas fa-clipboard-list me-1"></i> Orders
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center" href="{{ route('admin.customers.index') }}">
+                                    <i class="fas fa-users me-1"></i> Customers
+                                </a>
+                            </li>
                         @endif
 
                         @if(auth()->user()->isChef() || auth()->user()->isAdmin())
@@ -135,6 +140,9 @@
                                     <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.dashboard') }}">
                                         <i class="fas fa-tachometer-alt me-2"></i> Admin
                                     </a>
+                                    <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.customers.index') }}">
+                                        <i class="fas fa-users me-2"></i> Customers
+                                    </a>
                                 @endif
 
                                 @if(auth()->user()->isChef() || auth()->user()->isAdmin())
@@ -149,6 +157,10 @@
                                     </a>
                                 @endif
 
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item d-flex align-items-center" href="{{ route('profile.index') }}">
+                                    <i class="fas fa-user-cog me-2"></i> Profile
+                                </a>
                                 <div class="dropdown-divider"></div>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST">
                                     @csrf

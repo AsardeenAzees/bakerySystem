@@ -24,6 +24,14 @@ Route::get('/dashboard', function () {
 // auth routes from Breeze
 require __DIR__ . '/auth.php';
 
+// Profile routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'index'])->name('profile.index');
+    Route::patch('/profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [\App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('profile.password');
+    Route::delete('/profile', [\App\Http\Controllers\ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
 // Customer area
 Route::middleware(['auth', 'role:customer,admin'])->group(function () {
     Route::get('/shop',      [\App\Http\Controllers\ShopController::class, 'index'])->name('shop.index');
@@ -66,6 +74,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('orders/{order}/refund', [\App\Http\Controllers\Admin\OrderController::class, 'refund'])->name('orders.refund');
     Route::get('reports/sales', [\App\Http\Controllers\Admin\ReportController::class, 'sales'])->name('reports.sales');
     Route::get('reports/stock', [\App\Http\Controllers\Admin\ReportController::class, 'stock'])->name('reports.stock');
+    
+    // Customer management
+    Route::get('customers', [\App\Http\Controllers\Admin\CustomerController::class, 'index'])->name('customers.index');
+    Route::get('customers/{customer}', [\App\Http\Controllers\Admin\CustomerController::class, 'show'])->name('customers.show');
+    Route::patch('customers/{customer}/status', [\App\Http\Controllers\Admin\CustomerController::class, 'toggleStatus'])->name('customers.toggleStatus');
 });
 
 // Chef area

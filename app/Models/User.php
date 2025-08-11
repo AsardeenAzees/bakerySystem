@@ -19,6 +19,7 @@ class User extends Authenticatable
         'password',
         'phone',
         'role', // admin | chef | delivery | customer
+        'is_active',
     ];
 
     /**
@@ -38,6 +39,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'last_login_at'     => 'datetime',
             'password'          => 'hashed',
+            'is_active'         => 'boolean',
         ];
     }
 

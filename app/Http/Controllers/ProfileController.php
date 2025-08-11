@@ -3,46 +3,70 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\ProfilePasswordRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use Illuminate\Validation\ValidationException;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
-    public function edit(Request $request): View
+    public function index()
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        return view('profile.index');
     }
 
-    /**
-     * Update the user's profile information.
-     */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request)
     {
-        $request->user()->fill($request->validated());
+        $user = Auth::user();
+        $data = $request->validated();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        // Check if email is being changed
+        $emailChanged = $user->email !== $data['email'];
+
+        // Update user data
+        $user->update($data);
+
+        // If email changed, clear email verification and require re-login
+        if ($emailChanged) {
+            $user->email_verified_at = null;
+            $user->save();
+            
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            
+            return redirect()->route('login')
+                ->with('status', 'Email updated successfully. Please log in again.');
         }
 
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return redirect()->route('profile.index')
+            ->with('status', 'Profile updated successfully.');
     }
 
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
+    public function updatePassword(ProfilePasswordRequest $request)
     {
-        $request->validateWithBag('userDeletion', [
+        $user = Auth::user();
+
+        // Verify current password
+        if (!Hash::check($request->current_password, $user->password)) {
+            throw ValidationException::withMessages([
+                'current_password' => ['The provided password does not match your current password.'],
+            ]);
+        }
+
+        // Update password
+        $user->update([
+            'password' => Hash::make($request->password)
+        ]);
+
+        return redirect()->route('profile.index')
+            ->with('status', 'Password updated successfully.');
+    }
+
+    public function destroy(Request $request)
+    {
+        $request->validate([
             'password' => ['required', 'current_password'],
         ]);
 
@@ -55,6 +79,6 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to('/');
+        return redirect('/');
     }
 }

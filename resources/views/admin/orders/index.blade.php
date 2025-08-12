@@ -27,7 +27,6 @@
           <th>Customer</th>
           <th>Items</th>
           <th>Total</th>
-          <th>Status</th>
           <th>Payment</th>
           <th>Delivery</th>
           <th>Actions</th>
@@ -60,9 +59,6 @@
             <strong>Rs {{ number_format($order->total,2) }}</strong>
             <br>
             <small class="text-muted">{{ $order->items->count() }} items</small>
-          </td>
-          <td>
-            <span class="badge {{ $order->status_badge }}">{{ $order->status_display }}</span>
           </td>
           <td>
             @if($order->payment)

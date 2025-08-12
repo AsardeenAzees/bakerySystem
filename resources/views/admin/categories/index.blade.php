@@ -3,7 +3,7 @@
 <div class="container">
   <h1 class="mb-3 d-flex justify-content-between">
     <span>Categories</span>
-    <a href="{{ route('admin.categories.create') }}" class="btn btn-primary">Add</a>
+    <a href="{{ route('admin.categories.create') }}" class="btn btn-primary px-5">Add</a>
   </h1>
   @include('partials.flash')
 
@@ -30,7 +30,7 @@
             <span class="badge bg-secondary">Inactive</span>
           @endif
         </td>
-        <td class="text-end">
+        <td class="center">
           <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.categories.edit',$c) }}">Edit</a>
           <form action="{{ route('admin.categories.destroy',$c) }}" method="post" class="d-inline">
             @csrf @method('DELETE')
@@ -42,7 +42,7 @@
     </tbody>
   </table>
 
-  
+
   <!--Pagination-->
   <div class="d-flex justify-content-center mt-5">
       {{ $categories->links('pagination::bootstrap-5') }}

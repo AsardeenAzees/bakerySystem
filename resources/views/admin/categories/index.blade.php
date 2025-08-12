@@ -42,6 +42,23 @@
     </tbody>
   </table>
 
-  {{ $categories->links() }}
+  
+  <!--Pagination-->
+  <div class="d-flex justify-content-center mt-5">
+      {{ $categories->links('pagination::bootstrap-5') }}
+  </div>
+
+  <style>
+      .pagination .page-item.active .page-link {
+          background-color: #0d6efd;
+          border-color: #0d6efd;
+      }
+      .pagination .page-link {
+          color: #0d6efd;
+      }
+      .pagination .page-link:hover {
+          background-color: #e9ecef;
+      }
+  </style>
 </div>
 @endsection

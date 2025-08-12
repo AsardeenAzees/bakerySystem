@@ -108,7 +108,23 @@
                     <!-- Pagination -->
                     @if($customers->hasPages())
                         <div class="d-flex justify-content-center mt-4">
-                            {{ $customers->links() }}
+                    
+                            <div class="d-flex justify-content-center mt-5">
+                                {{ $customers->links('pagination::bootstrap-5') }}
+                            </div>
+
+                            <style>
+                                .pagination .page-item.active .page-link {
+                                    background-color: #0d6efd;
+                                    border-color: #0d6efd;
+                                }
+                                .pagination .page-link {
+                                    color: #0d6efd;
+                                }
+                                .pagination .page-link:hover {
+                                    background-color: #e9ecef;
+                                }
+                            </style>
                         </div>
                     @endif
                 </div>

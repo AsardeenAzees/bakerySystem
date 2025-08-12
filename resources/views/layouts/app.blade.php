@@ -54,6 +54,11 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.products.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('admin.products.*') ? 'page' : '' }}" href="{{ route('admin.products.index') }}">
+                                    <i class="fas fa-store me-1"></i> Product
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('admin.orders.*') ? 'page' : '' }}" href="{{ route('admin.orders.index') }}">
                                     <i class="fas fa-clipboard-list me-1"></i> Orders
                                 </a>
@@ -66,19 +71,6 @@
                             <li class="nav-item">
                                 <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.deliveries.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('admin.deliveries.*') ? 'page' : '' }}" href="{{ route('admin.deliveries.index') }}">
                                     <i class="fas fa-truck me-1"></i> Deliveries
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center position-relative {{ request()->routeIs('cart.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('cart.*') ? 'page' : '' }}" href="{{ route('cart.index') }}">
-                                    <i class="fas fa-shopping-cart me-1"></i> Cart
-                                    @if($cartCount > 0)
-                                        <span class="badge bg-danger position-absolute top-0 start-100 translate-middle rounded-pill">{{ $cartCount }}</span>
-                                    @endif
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('addresses.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('addresses.*') ? 'page' : '' }}" href="{{ route('addresses.index') }}">
-                                    <i class="fas fa-map-marker-alt me-1"></i> Addresses
                                 </a>
                             </li>
                         @endif

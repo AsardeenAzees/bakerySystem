@@ -161,7 +161,7 @@
                             <p class="mb-1">
                                 <strong>Status:</strong> 
                                 <span class="badge 
-                                    @if($order->payment->status === 'completed') bg-success
+                                    @if($order->payment->status === 'succeeded') bg-success
                                     @elseif($order->payment->status === 'pending') bg-warning
                                     @else bg-danger
                                     @endif">

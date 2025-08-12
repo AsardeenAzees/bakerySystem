@@ -79,6 +79,11 @@
                                     <i class="fas fa-users me-1"></i> Customers
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.deliveries.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('admin.deliveries.*') ? 'page' : '' }}" href="{{ route('admin.deliveries.index') }}">
+                                    <i class="fas fa-truck me-1"></i> Deliveries
+                                </a>
+                            </li>
                         @endif
 
                         @if(auth()->user()->isChef() || auth()->user()->isAdmin())
@@ -89,7 +94,7 @@
                             </li>
                         @endif
 
-                        @if(auth()->user()->isDelivery() || auth()->user()->isAdmin())
+                        @if(auth()->user()->isDelivery())
                             <li class="nav-item">
                                 <a class="nav-link d-flex align-items-center {{ request()->routeIs('delivery.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('delivery.*') ? 'page' : '' }}" href="{{ route('delivery.list') }}">
                                     <i class="fas fa-truck me-1"></i> Delivery
@@ -143,6 +148,9 @@
                                     <a class="dropdown-item d-flex align-items-center {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}" href="{{ route('admin.customers.index') }}">
                                         <i class="fas fa-users me-2"></i> Customers
                                     </a>
+                                    <a class="dropdown-item d-flex align-items-center {{ request()->routeIs('admin.deliveries.*') ? 'active' : '' }}" href="{{ route('admin.deliveries.index') }}">
+                                        <i class="fas fa-truck me-2"></i> Deliveries
+                                    </a>
                                 @endif
 
                                 @if(auth()->user()->isChef() || auth()->user()->isAdmin())
@@ -151,7 +159,7 @@
                                     </a>
                                 @endif
 
-                                @if(auth()->user()->isDelivery() || auth()->user()->isAdmin())
+                                @if(auth()->user()->isDelivery())
                                     <a class="dropdown-item d-flex align-items-center {{ request()->routeIs('delivery.*') ? 'active' : '' }}" href="{{ route('delivery.list') }}">
                                         <i class="fas fa-truck me-2"></i> Delivery
                                     </a>

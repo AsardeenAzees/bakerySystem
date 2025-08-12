@@ -21,7 +21,8 @@
                 <th>Customer</th>
                 <th>Items</th>
                 <th>Delivery Address</th>
-                <th>Status</th>
+                 <th>Status</th>
+                 <th>Payment</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -83,6 +84,15 @@
                   <br>
                   <small class="text-muted">{{ ucfirst(str_replace('_', ' ', $delivery->order->status)) }}</small>
                 </td>
+                <td>
+                  @if($delivery->order->payment)
+                    <span class="badge bg-secondary">{{ strtoupper($delivery->order->payment->provider) }}</span>
+                    <br>
+                    <small class="text-muted">{{ ucfirst($delivery->order->payment->status) }}</small>
+                  @else
+                    <span class="badge bg-warning">Pending</span>
+                  @endif
+                </td>
                 <td class="text-end">
                   @if($delivery->order->status === 'awaiting_delivery_pickup')
                     <form method="post" action="{{ route('delivery.pickup', $delivery->order) }}" class="d-inline mb-2">
@@ -98,6 +108,9 @@
                         <i class="fas fa-check"></i> Delivered Successfully
                       </button>
                     </form>
+                    @if($delivery->order->payment && $delivery->order->payment->provider === 'cod')
+                      <button class="btn btn-sm btn-outline-secondary ms-1" disabled title="Confirm after delivery">Payment Received</button>
+                    @endif
                   @elseif($delivery->order->status === 'delivered')
                     <span class="badge bg-success fs-6">
                       <i class="fas fa-check-circle"></i> Delivered
@@ -105,6 +118,14 @@
                     @if($delivery->delivered_at)
                       <br>
                       <small class="text-muted">{{ $delivery->delivered_at->format('M d, Y g:i A') }}</small>
+                    @endif
+                    @if($delivery->order->payment && $delivery->order->payment->provider === 'cod' && $delivery->order->payment->status !== 'succeeded')
+                      <form method="post" action="{{ route('delivery.paymentReceived', $delivery->order) }}" class="d-inline mt-2">
+                        @csrf
+                        <button class="btn btn-sm btn-primary" onclick="return confirm('Confirm COD payment received?')">
+                          <i class="fas fa-money-bill-wave"></i> Payment Received
+                        </button>
+                      </form>
                     @endif
                   @else
                     <span class="text-muted">No action available</span>

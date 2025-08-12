@@ -45,7 +45,7 @@ class CustomerController extends Controller
             abort(404);
         }
 
-        $customer->load(['addresses', 'orders.orderItems.product']);
+        $customer->load(['addresses', 'orders.items.product']);
 
         // Get order statistics
         $orderStats = [

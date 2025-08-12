@@ -18,6 +18,15 @@ class DeliveryController extends Controller
         return view('delivery.list', compact('deliveries'));
     }
 
+    public function json()
+    {
+        $deliveries = Delivery::with(['order.address', 'order.user', 'order.items.product', 'order.payment'])
+            ->where('assigned_to', auth()->id())
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return response()->json($deliveries);
+    }
+
     public function pickupOrder(Request $request, Order $order)
     {
         $delivery = $order->delivery;
@@ -46,5 +55,23 @@ class DeliveryController extends Controller
         $order->update(['status' => 'delivered']);
 
         return back()->with('success', 'Order marked as delivered successfully.');
+    }
+
+    public function confirmCodPayment(Request $request, Order $order)
+    {
+        $delivery = $order->delivery;
+        abort_unless($delivery && $delivery->assigned_to === auth()->id(), 403);
+
+        if (!$order->payment || $order->payment->provider !== 'cod') {
+            return back()->with('error', 'This order is not Cash on Delivery.');
+        }
+
+        if ($order->status !== 'delivered') {
+            return back()->with('error', 'Confirm delivery before acknowledging payment received.');
+        }
+
+        $order->payment->update(['status' => 'succeeded']);
+
+        return back()->with('success', 'COD payment confirmed as received.');
     }
 }

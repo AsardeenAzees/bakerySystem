@@ -74,6 +74,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('orders/{order}/refund', [\App\Http\Controllers\Admin\OrderController::class, 'refund'])->name('orders.refund');
     Route::get('reports/sales', [\App\Http\Controllers\Admin\ReportController::class, 'sales'])->name('reports.sales');
     Route::get('reports/stock', [\App\Http\Controllers\Admin\ReportController::class, 'stock'])->name('reports.stock');
+
+    // Deliveries
+    Route::get('deliveries', [\App\Http\Controllers\Admin\DeliveryController::class, 'index'])->name('deliveries.index');
+    Route::get('deliveries/json', [\App\Http\Controllers\Admin\DeliveryController::class, 'json'])->name('deliveries.json');
     
     // Customer management
     Route::get('customers', [\App\Http\Controllers\Admin\CustomerController::class, 'index'])->name('customers.index');
@@ -87,9 +91,11 @@ Route::middleware(['auth', 'role:chef,admin'])->prefix('chef')->name('chef.')->g
     Route::post('stock/{product}/increase', [\App\Http\Controllers\Chef\StockController::class, 'increase'])->name('stock.increase');
 });
 
-// Delivery area
-Route::middleware(['auth', 'role:delivery,admin'])->prefix('delivery')->name('delivery.')->group(function () {
+// Delivery area (delivery staff only)
+Route::middleware(['auth', 'role:delivery'])->prefix('delivery')->name('delivery.')->group(function () {
     Route::get('list', [\App\Http\Controllers\Delivery\DeliveryController::class, 'index'])->name('list');
+    Route::get('list/json', [\App\Http\Controllers\Delivery\DeliveryController::class, 'json'])->name('list.json');
     Route::post('orders/{order}/pickup', [\App\Http\Controllers\Delivery\DeliveryController::class, 'pickupOrder'])->name('pickup');
     Route::post('orders/{order}/delivered', [\App\Http\Controllers\Delivery\DeliveryController::class, 'markDelivered'])->name('delivered');
+    Route::post('orders/{order}/payment-received', [\App\Http\Controllers\Delivery\DeliveryController::class, 'confirmCodPayment'])->name('paymentReceived');
 });

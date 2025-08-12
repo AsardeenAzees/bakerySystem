@@ -11,7 +11,10 @@
   <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
       <h5 class="mb-0"><i class="fas fa-truck"></i> All Deliveries</h5>
-      <button id="refreshBtn" class="btn btn-sm btn-outline-primary">Refresh</button>
+      <div class="d-flex align-items-center">
+        <small class="text-muted me-2" id="lastUpdated">Last updated: {{ now()->diffForHumans() }}</small>
+        <button id="refreshBtn" class="btn btn-sm btn-outline-primary">Refresh</button>
+      </div>
     </div>
     <div class="card-body">
       <div class="table-responsive">
@@ -85,30 +88,99 @@
         const address = d.order.address;
         const payment = d.order.payment;
         const user    = d.order.user;
-        const statusBadge = 'badge';
+        
+        // Get proper status badge class
+        let statusBadgeClass = 'badge bg-secondary';
+        let statusText = d.status || '';
+        
+        switch(statusText) {
+          case 'pending':
+            statusBadgeClass = 'badge bg-warning text-dark';
+            break;
+          case 'assigned':
+            statusBadgeClass = 'badge bg-info';
+            break;
+          case 'in_transit':
+            statusBadgeClass = 'badge bg-primary';
+            statusText = 'Out for Delivery';
+            break;
+          case 'delivered':
+            statusBadgeClass = 'badge bg-success';
+            break;
+          default:
+            statusText = statusText.replaceAll('_', ' ');
+        }
+        
+        // Format payment status
+        let paymentStatus = '';
+        if (payment) {
+          paymentStatus = `<span class="badge bg-secondary">${(payment.provider || '').toUpperCase()}</span><small class="text-muted d-block">${(payment.status || '').charAt(0).toUpperCase() + (payment.status || '').slice(1)}</small>`;
+        } else {
+          paymentStatus = '<span class="badge bg-warning">Pending</span>';
+        }
+        
         return `
           <tr>
             <td><a href="/admin/orders/${d.order.id}">#${d.order.id}</a></td>
-            <td><strong>${user.name}</strong><br><small class="text-muted">${user.email ?? ''}</small></td>
-            <td>${address.line1}${address.line2 ? '<br>'+address.line2: ''}<br>${address.city}${address.state ? ', '+address.state : ''}</td>
-            <td>${d.assigned_user ? d.assigned_user.name : (d.assigned_user_id ?? 'Unassigned')}</td>
-            <td>${payment ? `<span class="badge bg-secondary">${payment.provider?.toUpperCase?.() || payment.provider}</span><small class="text-muted d-block">${(payment.status||'').charAt(0).toUpperCase()+ (payment.status||'').slice(1)}</small>` : '<span class="badge bg-warning">Pending</span>'}</td>
-            <td><span class="badge">${(d.status||'').replaceAll('_',' ')}</span></td>
-            <td><small class="text-muted">just now</small></td>
+            <td><strong>${user.name || ''}</strong><br><small class="text-muted">${user.email || ''}</small></td>
+            <td>${address.line1 || ''}${address.line2 ? '<br>'+address.line2 : ''}<br>${address.city || ''}${address.state ? ', '+address.state : ''}</td>
+            <td>${d.assigned_user ? d.assigned_user.name : 'Unassigned'}</td>
+            <td>${paymentStatus}</td>
+            <td><span class="${statusBadgeClass}">${statusText}</span></td>
+            <td><small class="text-muted">${d.updated_at ? new Date(d.updated_at).toLocaleString() : 'Unknown'}</small></td>
           </tr>`
       }).join('');
     }
 
     async function fetchData(){
       try{
+        // Show loading state
+        if (refreshBtn) {
+          refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+          refreshBtn.disabled = true;
+        }
+        
         const res = await fetch(endpoint, {headers: {'Accept':'application/json'}});
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
         const data = await res.json();
-        render(data);
-      }catch(e){ console.error(e); }
+        
+        // Validate data structure before rendering
+        if (Array.isArray(data) && data.length > 0 && data[0].order) {
+          render(data);
+          
+          // Update last updated timestamp
+          const lastUpdated = document.getElementById('lastUpdated');
+          if (lastUpdated) {
+            lastUpdated.textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
+          }
+        } else {
+          console.warn('Invalid data structure received:', data);
+        }
+      }catch(e){ 
+        console.error('Error fetching delivery data:', e);
+        // Don't break the UI on error, just log it
+      } finally {
+        // Reset button state
+        if (refreshBtn) {
+          refreshBtn.innerHTML = 'Refresh';
+          refreshBtn.disabled = false;
+        }
+      }
     }
 
     refreshBtn?.addEventListener('click', fetchData);
-    setInterval(fetchData, 8000);
+    
+    // Start auto-refresh after a delay to avoid immediate refresh on page load
+    setTimeout(() => {
+      setInterval(fetchData, 8000);
+    }, 5000);
+    
+    // Add error handling for initial page load
+    window.addEventListener('error', function(e) {
+      console.error('Page error:', e);
+    });
   })();
 </script>
 @endpush

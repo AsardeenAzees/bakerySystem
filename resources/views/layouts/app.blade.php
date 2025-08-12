@@ -42,7 +42,48 @@
                 <!-- Left Side -->
                 <ul class="navbar-nav me-auto">
                     @auth
-                        @if(auth()->user()->hasAnyRole(['customer','admin']))
+                        @if(auth()->user()->isAdmin())
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" aria-current="{{ request()->routeIs('admin.dashboard') ? 'page' : '' }}" href="{{ route('admin.dashboard') }}">
+                                    <i class="fas fa-tachometer-alt me-1"></i> Admin
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('shop.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('shop.*') ? 'page' : '' }}" href="{{ route('shop.index') }}">
+                                    <i class="fas fa-store me-1"></i> Shop
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('admin.orders.*') ? 'page' : '' }}" href="{{ route('admin.orders.index') }}">
+                                    <i class="fas fa-clipboard-list me-1"></i> Orders
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('admin.customers.*') ? 'page' : '' }}" href="{{ route('admin.customers.index') }}">
+                                    <i class="fas fa-users me-1"></i> Customers
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.deliveries.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('admin.deliveries.*') ? 'page' : '' }}" href="{{ route('admin.deliveries.index') }}">
+                                    <i class="fas fa-truck me-1"></i> Deliveries
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center position-relative {{ request()->routeIs('cart.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('cart.*') ? 'page' : '' }}" href="{{ route('cart.index') }}">
+                                    <i class="fas fa-shopping-cart me-1"></i> Cart
+                                    @if($cartCount > 0)
+                                        <span class="badge bg-danger position-absolute top-0 start-100 translate-middle rounded-pill">{{ $cartCount }}</span>
+                                    @endif
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('addresses.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('addresses.*') ? 'page' : '' }}" href="{{ route('addresses.index') }}">
+                                    <i class="fas fa-map-marker-alt me-1"></i> Addresses
+                                </a>
+                            </li>
+                        @endif
+
+                        @if(auth()->user()->hasAnyRole(['customer']))
                             <li class="nav-item">
                                 <a class="nav-link d-flex align-items-center {{ request()->routeIs('shop.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('shop.*') ? 'page' : '' }}" href="{{ route('shop.index') }}">
                                     <i class="fas fa-store me-1"></i> Shop
@@ -63,36 +104,6 @@
                             </li>
                         @endif
 
-                        @if(auth()->user()->isAdmin())
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" aria-current="{{ request()->routeIs('admin.dashboard') ? 'page' : '' }}" href="{{ route('admin.dashboard') }}">
-                                    <i class="fas fa-tachometer-alt me-1"></i> Admin
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('admin.orders.*') ? 'page' : '' }}" href="{{ route('admin.orders.index') }}">
-                                    <i class="fas fa-clipboard-list me-1"></i> Orders
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('admin.customers.*') ? 'page' : '' }}" href="{{ route('admin.customers.index') }}">
-                                    <i class="fas fa-users me-1"></i> Customers
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.deliveries.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('admin.deliveries.*') ? 'page' : '' }}" href="{{ route('admin.deliveries.index') }}">
-                                    <i class="fas fa-truck me-1"></i> Deliveries
-                                </a>
-                            </li>
-                        @endif
-
-                        @if(auth()->user()->isChef() || auth()->user()->isAdmin())
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('chef.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('chef.*') ? 'page' : '' }}" href="{{ route('chef.tasks') }}">
-                                    <i class="fas fa-utensils me-1"></i> Chef
-                                </a>
-                            </li>
-                        @endif
 
                         @if(auth()->user()->isDelivery())
                             <li class="nav-item">

@@ -118,10 +118,24 @@
             @endforeach
         </div>
 
-        <!-- Pagination -->
+        <!--Pagination-->
         <div class="d-flex justify-content-center mt-5">
-            {{ $products->links() }}
+            {{ $products->links('pagination::bootstrap-5') }}
         </div>
+
+        <style>
+            .pagination .page-item.active .page-link {
+                background-color: #0d6efd;
+                border-color: #0d6efd;
+            }
+            .pagination .page-link {
+                color: #0d6efd;
+            }
+            .pagination .page-link:hover {
+                background-color: #e9ecef;
+            }
+        </style>
+
     @else
         <div class="text-center py-5">
             <i class="fas fa-search fa-3x text-muted mb-3"></i>

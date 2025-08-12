@@ -69,9 +69,14 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                    <a class="nav-link d-flex align-items-center {{ request()->routeIs('chef.*') ? 'active' : '' }}" href="{{ route('chef.tasks') }}">
-                                        <i class="fas fa-utensils me-2"></i> Chef
-                                    </a>
+                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('chef.*') ? 'active' : '' }}" href="{{ route('chef.tasks') }}">
+                                    <i class="fas fa-utensils me-2"></i> Chef
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}" href="{{ route('admin.categories.index') }}">
+                                    <i class="fas fa-list-alt me-1"></i> Categories
+                                </a>
                             </li>
                         @endif
 

@@ -44,34 +44,34 @@
                     @auth
                         @if(auth()->user()->isAdmin())
                             <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" aria-current="{{ request()->routeIs('admin.dashboard') ? 'page' : '' }}" href="{{ route('admin.dashboard') }}">
+                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
                                     <i class="fas fa-tachometer-alt me-1"></i> Admin
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('shop.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('shop.*') ? 'page' : '' }}" href="{{ route('shop.index') }}">
-                                    <i class="fas fa-store me-1"></i> Shop
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.products.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('admin.products.*') ? 'page' : '' }}" href="{{ route('admin.products.index') }}">
+                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.products.*') ? 'active' : '' }}" href="{{ route('admin.products.index') }}">
                                     <i class="fas fa-store me-1"></i> Product
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('admin.orders.*') ? 'page' : '' }}" href="{{ route('admin.orders.index') }}">
+                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}" href="{{ route('admin.orders.index') }}">
                                     <i class="fas fa-clipboard-list me-1"></i> Orders
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('admin.customers.*') ? 'page' : '' }}" href="{{ route('admin.customers.index') }}">
+                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}" href="{{ route('admin.customers.index') }}">
                                     <i class="fas fa-users me-1"></i> Customers
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.deliveries.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('admin.deliveries.*') ? 'page' : '' }}" href="{{ route('admin.deliveries.index') }}">
+                                <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.deliveries.*') ? 'active' : '' }}"  href="{{ route('admin.deliveries.index') }}">
                                     <i class="fas fa-truck me-1"></i> Deliveries
                                 </a>
+                            </li>
+                            <li class="nav-item">
+                                    <a class="nav-link d-flex align-items-center {{ request()->routeIs('chef.*') ? 'active' : '' }}" href="{{ route('chef.tasks') }}">
+                                        <i class="fas fa-utensils me-2"></i> Chef
+                                    </a>
                             </li>
                         @endif
 

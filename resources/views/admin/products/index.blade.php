@@ -2,7 +2,7 @@
 @section('content')
 <div class="container">
   <h1 class="mb-3 d-flex justify-content-between">
-    <span>Products</span>
+    <span>Products Management</span>
     <a href="{{ route('admin.products.create') }}" class="btn btn-primary px-5">Add</a>
   </h1>
   @include('partials.flash')

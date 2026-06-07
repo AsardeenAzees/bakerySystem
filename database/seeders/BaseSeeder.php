@@ -16,7 +16,7 @@ class BaseSeeder extends Seeder
         // roles: admin, chef, delivery, customer
         User::factory()->create(['name'=>'Admin','email'=>'admin@bakery.test','role'=>'admin']);
         User::factory()->create(['name'=>'Chef','email'=>'chef@bakery.test','role'=>'chef']);
-        User::factory()->create(['name'=>'Deliver Guy','email'=>'delivery@bakery.test','role'=>'delivery']);
+        User::factory()->create(['name'=>'Delivery Guy','email'=>'delivery@bakery.test','role'=>'delivery']);
         User::factory()->create(['name'=>'Customer','email'=>'customer@bakery.test','role'=>'customer']);
 
         $cats = ['Cakes','Breads','Pastries','Cookies'];

@@ -38,6 +38,6 @@ class Delivery extends Model
             'failed' => 'bg-red-100 text-red-800'
         ];
 
-        return $statuses[$this->status] ?? 'bg-gray-100 text-gray-800';
+        return $statuses[$this->status] ?? 'bg-gray-100  text-gray-800';
     }
 }

@@ -28,6 +28,7 @@
                             @endswitch">
                             {{ ucfirst(str_replace('_', ' ', $order->status)) }}
                         </span>
+                        
                     </div>
                 </div>
                 <div class="card-body">
